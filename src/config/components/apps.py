@@ -8,7 +8,8 @@ DJANGO_APPS = [
 ]
 
 THIRD_PARTY = [
-
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 LOCAL_APPS = [
