@@ -14,6 +14,7 @@ class UserSerializer(serializers.ModelSerializer):
             "last_name",
             "gender",
             "date_added",
+
         ]
 
 
@@ -24,4 +25,13 @@ class UserSafeSerializer(serializers.ModelSerializer):
             "id",
             "first_name",
             "last_name",
+        ]
+
+class UserAuthSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = [
+            "username",
+            "email",
+            "passowrd",
         ]
