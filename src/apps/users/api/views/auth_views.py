@@ -1,13 +1,10 @@
+from django.contrib.auth import authenticate
 from rest_framework import status
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from django.contrib.auth import authenticate
-
-from rest_framework.request import Request
-
 from apps.users.api.serializers.user_serializers import UserAuthSerializer
-
 from core.tokens import create_jwt_pair_for_user
 
 
