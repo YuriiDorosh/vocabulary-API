@@ -4,14 +4,13 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0004_alter_user_username'),
+        ("users", "0004_alter_user_username"),
     ]
 
     operations = [
         migrations.AlterModelTable(
-            name='user',
-            table='vocabulary_users',
+            name="user",
+            table="vocabulary_users",
         ),
     ]

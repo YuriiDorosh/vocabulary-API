@@ -52,7 +52,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     REQUIRED_FIELDS = ["email"]
 
     class Meta:
-        db_table = 'vocabulary_users'
+        db_table = "vocabulary_users"
         verbose_name = _("user")
         verbose_name_plural = _("users")
 

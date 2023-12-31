@@ -9,7 +9,7 @@ def create_jwt_pair_for_user(user: User) -> dict[str]:
 
     tokens = {
         "refresh": str(refresh),
-        "access": str(refresh.access_token), 
-        }
+        "access": str(refresh.access_token),
+    }
 
     return tokens
