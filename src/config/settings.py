@@ -20,6 +20,7 @@ config_files = [
     "boilerplate.py",
     "database.py",
     "internationalization.py",
+    "logging.py",
     "middleware.py",
     "static.py",
     "templates.py",
