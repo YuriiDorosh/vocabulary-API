@@ -4,10 +4,8 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
-from apps.users.api.serializers.token_serializers import \
-    CustomTokenObtainPairSerializer
+from apps.users.api.serializers.token_serializers import CustomTokenObtainPairSerializer
 from apps.users.api.serializers.user_serializers import UserSerializer
-from apps.users.models import User
 
 
 class UserRegistrationView(APIView):

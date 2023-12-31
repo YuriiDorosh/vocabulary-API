@@ -1,7 +1,6 @@
 from django.urls import path
 
-from apps.users.api.views.auth_views import (TokenObtainPairView,
-                                             UserRegistrationView)
+from apps.users.api.views.auth_views import TokenObtainPairView, UserRegistrationView
 from apps.users.api.views.self_views import SelfView
 
 urlpatterns = [
