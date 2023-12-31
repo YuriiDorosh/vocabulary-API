@@ -11,7 +11,7 @@ from django.utils.translation import gettext_lazy as _
 
 
 class CustomUserManager(BaseUserManager):
-    def create_user(self, email, username, password=None, **extra_fields):
+    def create_user(self, email, username, password, **extra_fields):
         if not email:
             raise ValueError(_("The Email field must be set"))
         email = self.normalize_email(email)
@@ -20,7 +20,7 @@ class CustomUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, username, password=None, **extra_fields):
+    def create_superuser(self, email, username, password, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
 
@@ -36,7 +36,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         primary_key=True, default=uuid.uuid4, editable=False, db_index=True
     )
     email = models.EmailField(unique=True)
-    username = models.CharField(max_length=30, unique=True)
+    username = models.CharField(_("username"), unique=True, max_length=30)
     first_name = models.CharField(_("first name"), max_length=30, blank=True)
     last_name = models.CharField(_("last name"), max_length=30, blank=True)
     gender = models.CharField(
@@ -48,10 +48,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    USERNAME_FIELD = "username"
+    REQUIRED_FIELDS = ["email"]
 
     class Meta:
+        db_table = 'vocabulary_users'
         verbose_name = _("user")
         verbose_name_plural = _("users")
 
@@ -60,9 +61,6 @@ class User(AbstractBaseUser, PermissionsMixin):
             name = f"{self.first_name} {self.last_name}"
         else:
             name = self.username
-
-        if len(name) < 3:
-            return "Anonymous"
 
         return name.strip()
 
