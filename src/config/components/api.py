@@ -1,4 +1,5 @@
 from datetime import timedelta
+
 from config.settings import SECRET_KEY
 
 REST_FRAMEWORK = {

@@ -1,8 +1,8 @@
 import os
 
-from config.components.boilerplate import BASE_DIR
-
 from dotenv import load_dotenv
+
+from config.components.boilerplate import BASE_DIR
 
 load_dotenv()
 

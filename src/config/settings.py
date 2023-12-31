@@ -1,9 +1,8 @@
 import os
 import secrets
-from split_settings.tools import include
 
 from dotenv import load_dotenv
-
+from split_settings.tools import include
 
 load_dotenv()
 
