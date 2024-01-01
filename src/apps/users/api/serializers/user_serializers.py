@@ -33,5 +33,5 @@ class UserAuthSerializer(serializers.ModelSerializer):
         fields = [
             "username",
             "email",
-            "passowrd",
+            "password",
         ]
