@@ -1,5 +1,0 @@
-mypy
-django-stubs
-black
-flake8
-isort
