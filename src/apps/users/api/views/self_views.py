@@ -12,5 +12,4 @@ class SelfView(RetrieveUpdateDestroyAPIView):
     def get_object(self) -> User:
         return self.request.user
 
-    def get_queryset(self):
-        return User.objects.filter(is_active=True)
+
