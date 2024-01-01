@@ -15,6 +15,7 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "").split(",")
 config_folder = "components/"
 
 config_files = [
+    "api.py",
     "apps.py",
     "auth.py",
     "boilerplate.py",
