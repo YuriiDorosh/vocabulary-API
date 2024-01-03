@@ -6,7 +6,6 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.db import models
-from django.db.models import TextChoices
 from django.utils.translation import gettext_lazy as _
 
 
@@ -28,7 +27,7 @@ class CustomUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    class GENDERS(TextChoices):
+    class GENDERS(models.TextChoices):
         MALE = "male", _("Male")
         FEMALE = "female", _("Female")
 
