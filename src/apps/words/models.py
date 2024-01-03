@@ -46,7 +46,7 @@ class Word(BaseModel):
     word = models.CharField(max_length=64, unique=True, blank=False)
     translate = models.CharField(max_length=64, blank=True)
     context = models.TextField(
-        verbose_name=_("context"), default="the context from which the word is taken"
+        verbose_name=_("context"), default="The context from which the word is taken."
     )
     difficulty = models.CharField(
         verbose_name=_("difficulty"),
@@ -66,3 +66,5 @@ class Word(BaseModel):
         if self.translate:
             return f"Word: {self.word} | Translate: {self.translate}"
         return self.word
+
+
