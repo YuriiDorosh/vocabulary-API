@@ -72,15 +72,15 @@ class Word(BaseModel):
         if self.translate:
             return f"Word: {self.word} | Translate: {self.translate}"
         return self.word
-    
-    def add_to_topic(self, topic: 'Topic'):
+
+    def add_to_topic(self, topic: "Topic"):
         """Add the word to the specified topic."""
         topic.add_word(self)
 
-    def remove_from_topic(self, topic: 'Topic'):
+    def remove_from_topic(self, topic: "Topic"):
         """Remove the word from the specified topic."""
         topic.remove_word(self)
-        
+
     def add_sentence(self, text):
         """Add a sentence to the word."""
         return Sentence.objects.create(word=self, text=text)
@@ -92,7 +92,7 @@ class Word(BaseModel):
     def get_sentences(self):
         """Get all sentences associated with the word."""
         return self.sentences.all()
-    
+
     def get_random_sentence(self):
         """Get a random sentence associated with the word."""
         return Sentence.objects.random_sentence(user=self)
@@ -103,35 +103,35 @@ class SentenceQuerySet(models.QuerySet):
         """Get a random sentence."""
         return random.choice(self.objects.filter(word__user=user))
 
+
 SentenceManager = models.Manager.from_queryset(SentenceQuerySet)
 
+
 class Sentence(BaseModel):
-    word = models.ForeignKey(
-        Word,  on_delete=models.CASCADE, related_name="sentences"
-    )
+    word = models.ForeignKey(Word, on_delete=models.CASCADE, related_name="sentences")
     text = models.TextField(verbose_name=_("text"), blank=False)
-    
+
     objects = SentenceManager()
-    
+
     def __str__(self) -> str:
         return f"Sentence: {self.text}"
-    
+
 
 class Topic(BaseModel):
-    words = models.ManyToManyField(Word, through='TopicWord', related_name="topics")
-    
+    words = models.ManyToManyField(Word, through="TopicWord", related_name="topics")
+
     def add_word(self, word):
         """Add a word to the topic."""
         TopicWord.objects.create(topic=self, word=word)
-    
+
     def remove_word(self, word):
         """Remove a word from the topic."""
         TopicWord.objects.filter(topic=self, word=word).delete()
-        
+
     def get_words_by_difficulty(self, difficulty: str) -> "QuerySet[Word]":
         """Get words from the topic by difficulty level."""
         return self.words.filter(difficulty=difficulty)
-    
+
     def __str__(self) -> str:
         return f"Topic: {self.words.all()}"
 
@@ -139,6 +139,6 @@ class Topic(BaseModel):
 class TopicWord(BaseModel):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
-    
+
     def __str__(self) -> str:
         return f"Topic: {self.topic}, Word: {self.word}"
