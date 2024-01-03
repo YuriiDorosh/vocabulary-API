@@ -8,23 +8,29 @@ from apps.users.models import User
 
 class WordQuerySet(models.QuerySet):
     def words_by_date(self: models.Model, user: User) -> "WordQuerySet":
+        """Get words ordered by date of creation."""
         return self.objects.filter(user=user).order_by("-created_at")
 
     def words_by_alphabet(self: models.Model, user: User) -> "WordQuerySet":
+        """Get words ordered alphabetically."""
         return self.objects.filter(user=user).order_by("word")
 
     def words_reverce_alphabet(self: models.Model, user: User) -> "WordQuerySet":
+        """Get words ordered in reverse alphabetically."""
         return self.objects.filter(user=user).order_by("-word")
 
     def random_word(self: models.Model, user: User) -> "WordQuerySet":
+        """Get a random word."""
         return random.choice(self.objects.filter(user=user))
 
     def words_by_difficulty(
-        self: models.Model, user: User, diffuculty: str
+        self: models.Model, user: User, difficulty: str
     ) -> "WordQuerySet":
-        return self.objects.filter(user=user, diffuculty=diffuculty)
+        """Get words by difficulty level."""
+        return self.objects.filter(user=user, difficulty=difficulty)
 
     def words_sorted_by_difficulty(self: models.Model, user: User) -> "WordQuerySet":
+        """Get words sorted by difficulty."""
         return self.objects.filter(user=user).order_by("difficulty")
 
 
@@ -68,26 +74,33 @@ class Word(BaseModel):
         return self.word
     
     def add_to_topic(self, topic: 'Topic'):
+        """Add the word to the specified topic."""
         topic.add_word(self)
 
     def remove_from_topic(self, topic: 'Topic'):
+        """Remove the word from the specified topic."""
         topic.remove_word(self)
         
     def add_sentence(self, text):
+        """Add a sentence to the word."""
         return Sentence.objects.create(word=self, text=text)
 
     def remove_sentence(self, sentence_id):
+        """Remove a sentence from the word."""
         Sentence.objects.filter(word=self, id=sentence_id).delete()
 
     def get_sentences(self):
+        """Get all sentences associated with the word."""
         return self.sentences.all()
     
     def get_random_sentence(self):
-        return Sentence.random_sentence(user=self)
+        """Get a random sentence associated with the word."""
+        return Sentence.objects.random_sentence(user=self)
 
 
 class SentenceQuerySet(models.QuerySet):
     def random_sentence(self, user: User) -> "SentenceQuerySet":
+        """Get a random sentence."""
         return random.choice(self.objects.filter(word__user=user))
 
 SentenceManager = models.Manager.from_queryset(SentenceQuerySet)
@@ -108,16 +121,20 @@ class Topic(BaseModel):
     words = models.ManyToManyField(Word, through='TopicWord', related_name="topics")
     
     def add_word(self, word):
+        """Add a word to the topic."""
         TopicWord.objects.create(topic=self, word=word)
     
     def remove_word(self, word):
+        """Remove a word from the topic."""
         TopicWord.objects.filter(topic=self, word=word).delete()
         
     def get_words_by_difficulty(self, difficulty: str) -> "QuerySet[Word]":
+        """Get words from the topic by difficulty level."""
         return self.words.filter(difficulty=difficulty)
     
     def __str__(self) -> str:
         return f"Topic: {self.words.all()}"
+
 
 class TopicWord(BaseModel):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
@@ -125,4 +142,3 @@ class TopicWord(BaseModel):
     
     def __str__(self) -> str:
         return f"Topic: {self.topic}, Word: {self.word}"
-    
