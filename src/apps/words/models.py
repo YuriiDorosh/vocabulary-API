@@ -66,5 +66,63 @@ class Word(BaseModel):
         if self.translate:
             return f"Word: {self.word} | Translate: {self.translate}"
         return self.word
+    
+    def add_to_topic(self, topic: 'Topic'):
+        topic.add_word(self)
+
+    def remove_from_topic(self, topic: 'Topic'):
+        topic.remove_word(self)
+        
+    def add_sentence(self, text):
+        return Sentence.objects.create(word=self, text=text)
+
+    def remove_sentence(self, sentence_id):
+        Sentence.objects.filter(word=self, id=sentence_id).delete()
+
+    def get_sentences(self):
+        return self.sentences.all()
+    
+    def get_random_sentence(self):
+        return Sentence.random_sentence(user=self)
 
 
+class SentenceQuerySet(models.QuerySet):
+    def random_sentence(self, user: User) -> "SentenceQuerySet":
+        return random.choice(self.objects.filter(word__user=user))
+
+SentenceManager = models.Manager.from_queryset(SentenceQuerySet)
+
+class Sentence(BaseModel):
+    word = models.ForeignKey(
+        Word,  on_delete=models.CASCADE, related_name="sentences"
+    )
+    text = models.TextField(verbose_name=_("text"), blank=False)
+    
+    objects = SentenceManager()
+    
+    def __str__(self) -> str:
+        return f"Sentence: {self.text}"
+    
+
+class Topic(BaseModel):
+    words = models.ManyToManyField(Word, through='TopicWord', related_name="topics")
+    
+    def add_word(self, word):
+        TopicWord.objects.create(topic=self, word=word)
+    
+    def remove_word(self, word):
+        TopicWord.objects.filter(topic=self, word=word).delete()
+        
+    def get_words_by_difficulty(self, difficulty: str) -> "QuerySet[Word]":
+        return self.words.filter(difficulty=difficulty)
+    
+    def __str__(self) -> str:
+        return f"Topic: {self.words.all()}"
+
+class TopicWord(BaseModel):
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    word = models.ForeignKey(Word, on_delete=models.CASCADE)
+    
+    def __str__(self) -> str:
+        return f"Topic: {self.topic}, Word: {self.word}"
+    
