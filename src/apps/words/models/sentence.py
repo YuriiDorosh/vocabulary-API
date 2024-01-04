@@ -1,9 +1,11 @@
 import random
+
 from django.db import models
-from core.models import BaseModel
 from django.utils.translation import gettext_lazy as _
+
 from apps.users.models import User
 from apps.words.models.word import Word
+from core.models import BaseModel
 
 
 class SentenceQuerySet(models.QuerySet):
