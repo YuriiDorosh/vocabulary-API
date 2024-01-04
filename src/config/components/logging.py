@@ -1,6 +1,5 @@
 import os
 from datetime import datetime
-from logging.handlers import TimedRotatingFileHandler
 
 from config.components.boilerplate import BASE_DIR
 
@@ -21,7 +20,7 @@ LOGGING = {
             "class": "logging.handlers.TimedRotatingFileHandler",
             "filename": os.path.join(
                 LOGGING_DIR, "{:%Y-%m-%d}_log".format(datetime.now())
-            ),  # Змінив ім'я файлу на {:%Y-%m-%d}_log
+            ), 
             "when": "midnight",
             "backupCount": 7,
             "encoding": "utf-8",
