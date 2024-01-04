@@ -6,7 +6,9 @@ from django.utils.translation import gettext_lazy as _
 from apps.users.models import User
 from apps.words.models.sentence import Sentence
 from apps.words.models.topic import Topic
-User=get_user_model()
+
+User = get_user_model()
+
 
 class WordQuerySet(models.QuerySet):
     def words_by_date(self: models.Model, user: User) -> "WordQuerySet":
@@ -48,9 +50,7 @@ class Word(BaseModel):
         MASTER = "5", _("Master")
         LEGENDARY = "6", _("Legendary")
 
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="words"
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="words")
     word = models.CharField(max_length=64, unique=True, blank=False)
     translate = models.CharField(max_length=64, blank=True)
     context = models.TextField(

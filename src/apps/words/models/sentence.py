@@ -5,6 +5,7 @@ from django.utils.translation import gettext_lazy as _
 from apps.users.models import User
 from apps.words.models.word import Word
 
+
 class SentenceQuerySet(models.QuerySet):
     def random_sentence(self, user: User) -> "SentenceQuerySet":
         """Get a random sentence."""
