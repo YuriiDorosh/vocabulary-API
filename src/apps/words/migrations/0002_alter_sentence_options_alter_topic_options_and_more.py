@@ -4,34 +4,36 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('words', '0001_initial'),
+        ("words", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='sentence',
-            options={'verbose_name': 'sentence', 'verbose_name_plural': 'sentences'},
+            name="sentence",
+            options={"verbose_name": "sentence", "verbose_name_plural": "sentences"},
         ),
         migrations.AlterModelOptions(
-            name='topic',
-            options={'verbose_name': 'topic', 'verbose_name_plural': 'topics'},
+            name="topic",
+            options={"verbose_name": "topic", "verbose_name_plural": "topics"},
         ),
         migrations.AlterModelOptions(
-            name='topicword',
-            options={'verbose_name': 'topic_word', 'verbose_name_plural': 'topics_words'},
+            name="topicword",
+            options={
+                "verbose_name": "topic_word",
+                "verbose_name_plural": "topics_words",
+            },
         ),
         migrations.AlterModelTable(
-            name='sentence',
-            table='vocabulary_sentences',
+            name="sentence",
+            table="vocabulary_sentences",
         ),
         migrations.AlterModelTable(
-            name='topic',
-            table='vocabulary_topics',
+            name="topic",
+            table="vocabulary_topics",
         ),
         migrations.AlterModelTable(
-            name='topicword',
-            table='vocabulary_topic_word',
+            name="topicword",
+            table="vocabulary_topic_word",
         ),
     ]

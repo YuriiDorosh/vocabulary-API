@@ -20,7 +20,7 @@ LOGGING = {
             "class": "logging.handlers.TimedRotatingFileHandler",
             "filename": os.path.join(
                 LOGGING_DIR, "{:%Y-%m-%d}_log".format(datetime.now())
-            ), 
+            ),
             "when": "midnight",
             "backupCount": 7,
             "encoding": "utf-8",
