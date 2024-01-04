@@ -20,6 +20,11 @@ class Topic(BaseModel):
     def get_words_by_difficulty(self, difficulty: str) -> Word:
         """Get words from the topic by difficulty level."""
         return self.words.filter(difficulty=difficulty)
+    
+    class Meta:
+        db_table = "vocabulary_topics"
+        verbose_name = _("topic")
+        verbose_name_plural = _("topics")
 
     def __str__(self) -> str:
         return f"Topic: {self.words.all()}"
@@ -28,6 +33,11 @@ class Topic(BaseModel):
 class TopicWord(BaseModel):
     topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
     word = models.ForeignKey(Word, on_delete=models.CASCADE)
+    
+    class Meta:
+        db_table = "vocabulary_topic_word"
+        verbose_name = _("topic_word")
+        verbose_name_plural = _("topics_words")
 
     def __str__(self) -> str:
         return f"Topic: {self.topic}, Word: {self.word}"
