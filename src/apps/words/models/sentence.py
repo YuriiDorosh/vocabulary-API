@@ -22,6 +22,12 @@ class Sentence(BaseModel):
     text = models.TextField(verbose_name=_("text"), blank=False)
 
     objects = SentenceManager()
+    
+    class Meta:
+        db_table = "vocabulary_sentences"
+        verbose_name = _("sentence")
+        verbose_name_plural = _("sentences")
 
     def __str__(self) -> str:
         return f"Sentence: {self.text}"
+    
