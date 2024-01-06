@@ -1,3 +1,11 @@
 from django.contrib import admin
 
-# Register your models here.
+from apps.notes.models import Note, Pause
+
+@admin.register(Note)
+class NoteAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Pause)
+class PauseAdmin(admin.ModelAdmin):
+    pass
