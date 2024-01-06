@@ -19,6 +19,7 @@ config_files = [
     "apps.py",
     "auth.py",
     "boilerplate.py",
+    "cache.py",
     "database.py",
     "internationalization.py",
     "logging.py",
