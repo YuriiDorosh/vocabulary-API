@@ -45,3 +45,8 @@ dumpdata:
 
 stop_redis:
 	sudo systemctl stop redis
+
+redis:
+	sudo apt install redis-server
+	redis-server
+	redis-cli ping
