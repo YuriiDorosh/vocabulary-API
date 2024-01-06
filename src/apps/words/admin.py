@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from apps.words.models import Word, Sentence, Topic, TopicWord
+from apps.words.models import Sentence, Topic, TopicWord, Word
 
 
 @admin.register(Word)
