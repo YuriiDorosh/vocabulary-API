@@ -11,6 +11,7 @@ THIRD_PARTY = [
     "rest_framework",
     "rest_framework.authtoken",
     "drf_yasg",
+    "cachalot",
 ]
 
 LOCAL_APPS = [
