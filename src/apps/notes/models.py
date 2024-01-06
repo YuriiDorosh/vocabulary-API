@@ -39,7 +39,7 @@ class Note(BaseModel):
         verbose_name_plural = _("notes")
 
     def __str__(self) -> str:
-        return self.title
+        return f"Note: {self.title} | User: {self.user}"
     
     def get_all_pauses(self)-> "QuerySet[Pause]":
         """Get all pauses associated with the note."""
