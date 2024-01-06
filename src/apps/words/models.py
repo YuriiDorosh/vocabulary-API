@@ -75,11 +75,11 @@ class Word(BaseModel):
             return f"Word: {self.word} | Translate: {self.translate}"
         return self.word
 
-    def add_to_topic(self, topic: 'Topic'):
+    def add_to_topic(self, topic: "Topic"):
         """Add the word to the specified topic."""
         topic.add_word(self)
 
-    def remove_from_topic(self, topic: 'Topic'):
+    def remove_from_topic(self, topic: "Topic"):
         """Remove the word from the specified topic."""
         topic.remove_word(self)
 
@@ -122,8 +122,8 @@ class Topic(BaseModel):
         verbose_name_plural = _("topics")
 
     def __str__(self) -> str:
-        words_list = self.words.values_list('word', flat=True)
-        words_str = ', '.join(words_list) if words_list else ''
+        words_list = self.words.values_list("word", flat=True)
+        words_str = ", ".join(words_list) if words_list else ""
         return f"Topic: '{self.name}', Words: '{words_str}'"
 
 
@@ -140,7 +140,8 @@ class TopicWord(BaseModel):
         if self.word:
             return f"Topic: {self.topic}, Word: {self.word}"
         return f"Topic: {self.topic} without words"
-    
+
+
 class SentenceQuerySet(models.QuerySet):
     def random_sentence(self, user: User) -> "SentenceQuerySet":
         """Get a random sentence."""

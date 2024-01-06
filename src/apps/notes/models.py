@@ -40,12 +40,12 @@ class Note(BaseModel):
 
     def __str__(self) -> str:
         return f"Note: {self.title} | User: {self.user}"
-    
-    def get_all_pauses(self)-> "QuerySet[Pause]":
+
+    def get_all_pauses(self) -> "QuerySet[Pause]":
         """Get all pauses associated with the note."""
         return self.pauses.all()
 
-    def add_pause(self, place: str, description: str = "") -> 'Pause':
+    def add_pause(self, place: str, description: str = "") -> "Pause":
         """Add a pause to the note."""
         return Pause.objects.create(note=self, place=place, description=description)
 

@@ -7,7 +7,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -16,33 +15,69 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Note',
+            name="Note",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('title', models.CharField(max_length=64, unique=True, verbose_name='title')),
-                ('resource', models.CharField(max_length=64, verbose_name='resource')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='notes', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                (
+                    "title",
+                    models.CharField(max_length=64, unique=True, verbose_name="title"),
+                ),
+                ("resource", models.CharField(max_length=64, verbose_name="resource")),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="notes",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'note',
-                'verbose_name_plural': 'notes',
-                'db_table': 'vocabulary_notes',
+                "verbose_name": "note",
+                "verbose_name_plural": "notes",
+                "db_table": "vocabulary_notes",
             },
         ),
         migrations.CreateModel(
-            name='Pause',
+            name="Pause",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('place', models.CharField(max_length=64, verbose_name='place')),
-                ('description', models.TextField(blank=True, verbose_name='description')),
-                ('note', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='pauses', to='notes.note')),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("place", models.CharField(max_length=64, verbose_name="place")),
+                (
+                    "description",
+                    models.TextField(blank=True, verbose_name="description"),
+                ),
+                (
+                    "note",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="pauses",
+                        to="notes.note",
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'pause',
-                'verbose_name_plural': 'pauses',
-                'db_table': 'vocabulary_pauses',
+                "verbose_name": "pause",
+                "verbose_name_plural": "pauses",
+                "db_table": "vocabulary_pauses",
             },
         ),
     ]
