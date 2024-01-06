@@ -1,5 +1,5 @@
 import random
-
+from django.db.models import QuerySet
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import gettext_lazy as _
@@ -40,6 +40,14 @@ class Note(BaseModel):
 
     def __str__(self) -> str:
         return self.title
+    
+    def get_all_pauses(self)-> "QuerySet[Pause]":
+        """Get all pauses associated with the note."""
+        return self.pauses.all()
+
+    def add_pause(self, place: str, description: str = "") -> 'Pause':
+        """Add a pause to the note."""
+        return Pause.objects.create(note=self, place=place, description=description)
 
 
 class PauseQuerySet(models.QuerySet):
