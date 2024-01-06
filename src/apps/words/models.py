@@ -5,8 +5,6 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.users.models import User
-from apps.words.models.sentence import Sentence
-from apps.words.models.topic import Topic
 from core.models import BaseModel
 
 User = get_user_model()
@@ -77,11 +75,11 @@ class Word(BaseModel):
             return f"Word: {self.word} | Translate: {self.translate}"
         return self.word
 
-    def add_to_topic(self, topic: Topic):
+    def add_to_topic(self, topic: 'Topic'):
         """Add the word to the specified topic."""
         topic.add_word(self)
 
-    def remove_from_topic(self, topic: Topic):
+    def remove_from_topic(self, topic: 'Topic'):
         """Remove the word from the specified topic."""
         topic.remove_word(self)
 
@@ -100,3 +98,68 @@ class Word(BaseModel):
     def get_random_sentence(self):
         """Get a random sentence associated with the word."""
         return Sentence.objects.random_sentence(user=self)
+
+
+class Topic(BaseModel):
+    name = models.CharField(max_length=64, unique=True, blank=False)
+    words = models.ManyToManyField(Word, through="TopicWord", related_name="topics")
+
+    def add_word(self, word):
+        """Add a word to the topic."""
+        TopicWord.objects.create(topic=self, word=word)
+
+    def remove_word(self, word):
+        """Remove a word from the topic."""
+        TopicWord.objects.filter(topic=self, word=word).delete()
+
+    def get_words_by_difficulty(self, difficulty: str) -> Word:
+        """Get words from the topic by difficulty level."""
+        return self.words.filter(difficulty=difficulty)
+
+    class Meta:
+        db_table = "vocabulary_topics"
+        verbose_name = _("topic")
+        verbose_name_plural = _("topics")
+
+    def __str__(self) -> str:
+        words_list = self.words.values_list('word', flat=True)
+        words_str = ', '.join(words_list) if words_list else ''
+        return f"Topic: '{self.name}', Words: '{words_str}'"
+
+
+class TopicWord(BaseModel):
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE)
+    word = models.ForeignKey(Word, on_delete=models.CASCADE)
+
+    class Meta:
+        db_table = "vocabulary_topic_word"
+        verbose_name = _("topic_word")
+        verbose_name_plural = _("topics_words")
+
+    def __str__(self) -> str:
+        if self.word:
+            return f"Topic: {self.topic}, Word: {self.word}"
+        return f"Topic: {self.topic} without words"
+    
+class SentenceQuerySet(models.QuerySet):
+    def random_sentence(self, user: User) -> "SentenceQuerySet":
+        """Get a random sentence."""
+        return random.choice(self.objects.filter(word__user=user))
+
+
+SentenceManager = models.Manager.from_queryset(SentenceQuerySet)
+
+
+class Sentence(BaseModel):
+    word = models.ForeignKey(Word, on_delete=models.CASCADE, related_name="sentences")
+    text = models.TextField(verbose_name=_("text"), blank=False)
+
+    objects = SentenceManager()
+
+    class Meta:
+        db_table = "vocabulary_sentences"
+        verbose_name = _("sentence")
+        verbose_name_plural = _("sentences")
+
+    def __str__(self) -> str:
+        return f"Sentence: '{self.text}'"
