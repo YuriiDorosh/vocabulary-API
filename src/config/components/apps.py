@@ -12,6 +12,7 @@ THIRD_PARTY = [
     "rest_framework.authtoken",
     "drf_yasg",
     "cachalot",
+    'django_extensions',
 ]
 
 LOCAL_APPS = [
