@@ -50,3 +50,6 @@ redis:
 	sudo apt install redis-server
 	redis-server
 	redis-cli ping
+
+graphviz:
+	sudo apt-get install graphviz
