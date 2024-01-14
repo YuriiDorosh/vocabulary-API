@@ -13,7 +13,7 @@ User = get_user_model()
 class WordQuerySet(models.QuerySet):
     def words_by_date(self: models.Model, user: User) -> "WordQuerySet":
         """Get words ordered by date of creation."""
-        return self.objects.filter(user=user).order_by("-created_at")
+        return self.filter(user=user).order_by("-date_added")
 
     def words_by_alphabet(self: models.Model, user: User) -> "WordQuerySet":
         """Get words ordered alphabetically."""
