@@ -25,17 +25,17 @@ class WordQuerySet(models.QuerySet):
 
     def random_word(self: models.Model, user: User) -> "WordQuerySet":
         """Get a random word."""
-        return random.choice(self.objects.filter(user=user))
+        return random.choice(self.filter(user=user))
 
     def words_by_difficulty(
         self: models.Model, user: User, difficulty: str
     ) -> "WordQuerySet":
         """Get words by difficulty level."""
-        return self.objects.filter(user=user, difficulty=difficulty)
+        return self.filter(user=user, difficulty=difficulty)
 
     def words_sorted_by_difficulty(self: models.Model, user: User) -> "WordQuerySet":
         """Get words sorted by difficulty."""
-        return self.objects.filter(user=user).order_by("difficulty")
+        return self.filter(user=user).order_by("difficulty")
 
 
 WordManager = models.Manager.from_queryset(WordQuerySet)
@@ -145,7 +145,7 @@ class TopicWord(BaseModel):
 class SentenceQuerySet(models.QuerySet):
     def random_sentence(self, user: User) -> "SentenceQuerySet":
         """Get a random sentence."""
-        return random.choice(self.objects.filter(word__user=user))
+        return random.choice(self.filter(word__user=user))
 
 
 SentenceManager = models.Manager.from_queryset(SentenceQuerySet)
