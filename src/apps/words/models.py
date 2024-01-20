@@ -95,9 +95,9 @@ class Word(BaseModel):
         """Get all sentences associated with the word."""
         return self.sentences.all()
 
-    def get_random_sentence(self):
+    def get_random_sentence(self, user: User):
         """Get a random sentence associated with the word."""
-        return Sentence.objects.random_sentence(user=self)
+        return Sentence.objects.random_sentence(user=user, word_id=self)
 
 
 class Topic(BaseModel):
@@ -143,9 +143,14 @@ class TopicWord(BaseModel):
 
 
 class SentenceQuerySet(models.QuerySet):
-    def random_sentence(self, user: User) -> "SentenceQuerySet":
-        """Get a random sentence."""
-        return random.choice(self.filter(word__user=user))
+    def random_sentence(self, user: User, word_id: int) -> "SentenceQuerySet":
+        """Get a random sentence for a given word, verifying that the user is its author."""
+        try:
+            word = Word.objects.filter(id=word_id, user=user)
+            if word.exists():
+                return random.choice(self.filter(word=word.first()))
+        except:
+            return self.none()
 
 
 SentenceManager = models.Manager.from_queryset(SentenceQuerySet)
