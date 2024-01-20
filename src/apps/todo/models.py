@@ -40,7 +40,7 @@ class Todo(BaseModel):
         LEGENDARY = "6", _("Legendary") # TODO
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="todos")
-    group = models.ForeignKey(TodoGroup, on_delete=models.SET_NULL, related_name="todos")
+    group = models.ForeignKey(TodoGroup, on_delete=models.SET_NULL, related_name="todos", null=True)
     title = models.CharField(_("title"), max_length=64, unique=True, blank=False)
     is_finished = models.BooleanField(default=False)
     finished_at = models.DateTimeField(null=True)
