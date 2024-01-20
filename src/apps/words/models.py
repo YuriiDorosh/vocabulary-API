@@ -17,7 +17,7 @@ class WordQuerySet(models.QuerySet):
 
     def words_by_alphabet(self: models.Model, user: User) -> "WordQuerySet":
         """Get words ordered alphabetically."""
-        return self.objects.filter(user=user).order_by("word")
+        return self.filter(user=user).order_by("word")
 
     def words_reverce_alphabet(self: models.Model, user: User) -> "WordQuerySet":
         """Get words ordered in reverse alphabetically."""
