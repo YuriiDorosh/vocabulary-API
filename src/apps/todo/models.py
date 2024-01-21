@@ -32,12 +32,12 @@ class TodoGroup(BaseModel):
 
 class Todo(BaseModel):
     class Importance(models.TextChoices):
-        INDIFFERENTLY = "1", _("Indifferently")
-        LATER = "2", _("Later")
-        HARD = "3", _("Hard") # TODO
-        EXPERT = "4", _("Expert") # TODO
-        MASTER = "5", _("Master") # TODO
-        LEGENDARY = "6", _("Legendary") # TODO
+        LOW = "1", _("Low")
+        MEDIUM = "2", _("Medium")
+        HIGH = "3", _("High")
+        URGENT = "4", _("Urgent")
+        CRITICAL = "5", _("Critical")
+        EPIC = "6", _("Epic")
     
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="todos")
     group = models.ForeignKey(TodoGroup, on_delete=models.SET_NULL, related_name="todos", null=True)
