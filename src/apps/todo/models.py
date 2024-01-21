@@ -9,26 +9,25 @@ User = get_user_model()
 
 # TODO: QuerySet
 
+
 class TodoGroup(BaseModel):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="todogroups")
     title = models.CharField(_("title"), max_length=64, unique=True, blank=False)
-    
+
     class Meta:
         db_table = "vocabulary_todogroups"
         verbose_name = _("todogroup")
         verbose_name_plural = _("todogroups")
-        
+
     def count(self):
         return self.todos.count()
-    
-    
+
     def count_finished(self):
         return self.todos.filter(is_finished=True).count()
-    
+
     def count_open(self):
         return self.todos.filter(is_finished=False).count()
 
-# TODO: QuerySet
 
 class Todo(BaseModel):
     class Importance(models.TextChoices):
@@ -38,9 +37,11 @@ class Todo(BaseModel):
         URGENT = "4", _("Urgent")
         CRITICAL = "5", _("Critical")
         EPIC = "6", _("Epic")
-    
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="todos")
-    group = models.ForeignKey(TodoGroup, on_delete=models.SET_NULL, related_name="todos", null=True)
+    group = models.ForeignKey(
+        TodoGroup, on_delete=models.SET_NULL, related_name="todos", null=True
+    )
     title = models.CharField(_("title"), max_length=64, unique=True, blank=False)
     is_finished = models.BooleanField(default=False)
     finished_at = models.DateTimeField(null=True)
@@ -50,24 +51,21 @@ class Todo(BaseModel):
         choices=Importance.choices,
         blank=True,
     )
-    
+
     class Meta:
         db_table = "vocabulary_todos"
         verbose_name = _("todo")
         verbose_name_plural = _("todos")
-        
-    
+
     def __str__(self) -> str:
         return f"Todo: {self.title}"
-    
+
     def close(self):
         self.is_finished = True
         self.finished_at = timezone.now()
         self.save()
-        
+
     def reopen(self):
         self.is_finished = False
         self.finished_at = None
         self.save()
-    
-    

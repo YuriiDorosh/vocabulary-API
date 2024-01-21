@@ -7,7 +7,6 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -16,35 +15,94 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='TodoGroup',
+            name="TodoGroup",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('title', models.CharField(max_length=64, unique=True, verbose_name='title')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='todogroups', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                (
+                    "title",
+                    models.CharField(max_length=64, unique=True, verbose_name="title"),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="todogroups",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'todogroup',
-                'verbose_name_plural': 'todogroups',
-                'db_table': 'vocabulary_todogroups',
+                "verbose_name": "todogroup",
+                "verbose_name_plural": "todogroups",
+                "db_table": "vocabulary_todogroups",
             },
         ),
         migrations.CreateModel(
-            name='Todo',
+            name="Todo",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('title', models.CharField(max_length=64, unique=True, verbose_name='title')),
-                ('is_finished', models.BooleanField(default=False)),
-                ('finished_at', models.DateTimeField(null=True)),
-                ('importance', models.CharField(blank=True, choices=[('1', 'Indifferently'), ('2', 'Later'), ('3', 'Hard'), ('4', 'Expert'), ('5', 'Master'), ('6', 'Legendary')], max_length=1, verbose_name='difficulty')),
-                ('group', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='todos', to='todo.todogroup')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='todos', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                (
+                    "title",
+                    models.CharField(max_length=64, unique=True, verbose_name="title"),
+                ),
+                ("is_finished", models.BooleanField(default=False)),
+                ("finished_at", models.DateTimeField(null=True)),
+                (
+                    "importance",
+                    models.CharField(
+                        blank=True,
+                        choices=[
+                            ("1", "Indifferently"),
+                            ("2", "Later"),
+                            ("3", "Hard"),
+                            ("4", "Expert"),
+                            ("5", "Master"),
+                            ("6", "Legendary"),
+                        ],
+                        max_length=1,
+                        verbose_name="difficulty",
+                    ),
+                ),
+                (
+                    "group",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="todos",
+                        to="todo.todogroup",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="todos",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'verbose_name': 'todo',
-                'verbose_name_plural': 'todos',
-                'db_table': 'vocabulary_todos',
+                "verbose_name": "todo",
+                "verbose_name_plural": "todos",
+                "db_table": "vocabulary_todos",
             },
         ),
     ]
